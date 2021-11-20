@@ -35,7 +35,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <cxf.version>3.4.2</cxf.version>
-        <spring.boot.version>2.3.4.RELEASE</spring.boot.version>
+        <spring.boot.version>2.6.0</spring.boot.version>
 
         <mysql.jdbc.version>8.0.22</mysql.jdbc.version>
         <jackson.version>2.12.1</jackson.version>
