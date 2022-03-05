@@ -37,7 +37,7 @@
         <cxf.version>3.4.2</cxf.version>
         <spring.boot.version>2.6.1</spring.boot.version>
 
-        <awaitility.version>4.1.1</awaitility.version>
+        <awaitility.version>4.2.0</awaitility.version>
 
         <javaee.web.api.version>8.0.1</javaee.web.api.version>
 
