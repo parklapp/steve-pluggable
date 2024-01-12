@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.socket.WebSocketSession;
 
-import jakarta.xml.ws.Response;
+import javax.xml.ws.Response;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
