@@ -61,14 +61,16 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-
         OcppWebSocketHandshakeHandler handshakeHandler = new OcppWebSocketHandshakeHandler(
             new DefaultHandshakeHandler(),
             Lists.newArrayList(ocpp16WebSocketEndpoint, ocpp15WebSocketEndpoint, ocpp12WebSocketEndpoint),
             chargePointHelperService
         );
 
-        registry.addHandler(handshakeHandler.getDummyWebSocketHandler(), WebEnvironment.getContextRoot()+PATH_INFIX + "*")
+        String path = WebEnvironment.getContextRoot() + PATH_INFIX + "*";
+        log.info("Registering WebSocket handlers: {}...", path);
+
+        registry.addHandler(handshakeHandler.getDummyWebSocketHandler(), path)
                 .setHandshakeHandler(handshakeHandler)
                 .setAllowedOrigins("*");
     }
