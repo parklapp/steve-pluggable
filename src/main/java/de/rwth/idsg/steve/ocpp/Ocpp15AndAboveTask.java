@@ -27,7 +27,7 @@ import de.rwth.idsg.ocpp.jaxb.ResponseType;
 import de.rwth.idsg.steve.web.dto.ocpp.ChargePointSelection;
 import net.parkl.ocpp.service.cluster.PersistentTaskResultCallback;
 
-import jakarta.xml.ws.AsyncHandler;
+import javax.xml.ws.AsyncHandler;
 
 /**
  * @author Sevket Goekay <sevketgokay@gmail.com>

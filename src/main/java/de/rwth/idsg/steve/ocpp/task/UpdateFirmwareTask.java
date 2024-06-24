@@ -28,7 +28,7 @@ import de.rwth.idsg.steve.ocpp.OcppVersion;
 import de.rwth.idsg.steve.web.dto.ocpp.UpdateFirmwareParams;
 import net.parkl.ocpp.service.cluster.PersistentTaskResultCallback;
 
-import jakarta.xml.ws.AsyncHandler;
+import javax.xml.ws.AsyncHandler;
 
 import static de.rwth.idsg.steve.utils.DateTimeUtils.toDateTime;
 

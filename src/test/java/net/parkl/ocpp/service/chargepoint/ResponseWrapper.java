@@ -1,6 +1,6 @@
 package net.parkl.ocpp.service.chargepoint;
 
-import jakarta.xml.ws.Response;
+import javax.xml.ws.Response;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
