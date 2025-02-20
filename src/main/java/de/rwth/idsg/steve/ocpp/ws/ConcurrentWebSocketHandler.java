@@ -28,10 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.parkl.ocpp.service.config.AdvancedChargeBoxConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.socket.CloseStatus;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketMessage;
-import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.*;
 import org.springframework.web.socket.adapter.NativeWebSocketSession;
 import org.springframework.web.socket.adapter.standard.StandardWebSocketSession;
 import org.springframework.web.socket.handler.ConcurrentWebSocketSessionDecorator;
@@ -73,7 +70,8 @@ public abstract class ConcurrentWebSocketHandler implements WebSocketHandler {
         nativeSession.getUserProperties()
                 .put("org.apache.tomcat.websocket.BLOCKING_SEND_TIMEOUT", IDLE_TIMEOUT_IN_MS);
 
-        log.info("Created new session {} with buffer size {}", session.getId(), session.getTextMessageSizeLimit());
+        log.info("Created new session {} with text message size limit {}", session.getId(), session.getTextMessageSizeLimit());
+        log.info("Created new session {} with text binary size limit {}", session.getId(), session.getBinaryMessageSizeLimit());
     }
 
     private float getBufferMultiplier(WebSocketSession session) {
@@ -83,6 +81,14 @@ public abstract class ConcurrentWebSocketHandler implements WebSocketHandler {
 
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
+        if (message instanceof TextMessage) {
+            String payload = ((TextMessage) message).getPayload();
+            log.info("[sessionId={}] Message size: {}",  session.getId(), payload.length());
+        } else if (message instanceof BinaryMessage) {
+            byte[] payload = ((BinaryMessage) message).getPayload().array();
+            log.info("[sessionId={}] Message size: {}",  session.getId(), payload.length);
+        }
+
         this.onMessage(internalGet(session), message);
     }
 
