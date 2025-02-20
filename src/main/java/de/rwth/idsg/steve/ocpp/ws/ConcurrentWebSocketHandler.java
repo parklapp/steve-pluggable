@@ -65,9 +65,6 @@ public abstract class ConcurrentWebSocketHandler implements WebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         this.onOpen(internalGet(session));
-        float bufferMultiplier = getBufferMultiplier(session);
-        session.setBinaryMessageSizeLimit((int)(bufferMultiplier * bufferSizeLimit));
-        session.setTextMessageSizeLimit((int)(bufferMultiplier * bufferSizeLimit));
         final Session nativeSession = ((StandardWebSocketSession) session).getNativeSession(Session.class);
         nativeSession.getUserProperties()
                 .put("org.apache.tomcat.websocket.READ_IDLE_TIMEOUT_MS", IDLE_TIMEOUT_IN_MS);
@@ -100,7 +97,7 @@ public abstract class ConcurrentWebSocketHandler implements WebSocketHandler {
     }
 
     private ConcurrentWebSocketSessionDecorator internalGet(WebSocketSession session) {
-        return sessions.computeIfAbsent(session.getId(), s -> new ConcurrentWebSocketSessionDecorator(session, sendTimeLimit, (int)(getBufferMultiplier(session) * bufferSizeLimit)));
+        return sessions.computeIfAbsent(session.getId(), s -> new ConcurrentWebSocketSessionDecorator(session, sendTimeLimit, bufferSizeLimit));
     }
 
     // -------------------------------------------------------------------------

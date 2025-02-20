@@ -60,7 +60,7 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
     public static final long PING_INTERVAL = TimeUnit.MINUTES.toMinutes(15);
     public static final Duration IDLE_TIMEOUT = Duration.ofHours(2);
     public static final int IDLE_TIMEOUT_IN_MS = 600000;
-    public static final int MAX_MSG_SIZE = 4_199_304; // 4 MB for max message size
+    public static final int MAX_MSG_SIZE = 2_099_304; // 2 MB for max message size
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
