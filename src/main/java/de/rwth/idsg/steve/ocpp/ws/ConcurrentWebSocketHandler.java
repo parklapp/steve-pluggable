@@ -32,7 +32,6 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.socket.adapter.NativeWebSocketSession;
 import org.springframework.web.socket.adapter.standard.StandardWebSocketSession;
 import org.springframework.web.socket.handler.ConcurrentWebSocketSessionDecorator;
 
@@ -54,6 +53,7 @@ public abstract class ConcurrentWebSocketHandler implements WebSocketHandler {
 
     @Autowired
     protected AdvancedChargeBoxConfiguration advancedChargeBoxConfiguration;
+
 
     private static final int sendTimeLimit = (int) TimeUnit.SECONDS.toMillis(600);
 
