@@ -148,9 +148,18 @@ public class CentralSystemService16_Service {
         return new FirmwareStatusNotificationResponse();
     }
 
-    public StatusNotificationResponse statusNotification(
-            StatusNotificationRequest parameters, String chargeBoxIdentity) {
-        log.info("Status notification on {}: {}", chargeBoxIdentity, parameters.getStatus().value());
+    public StatusNotificationResponse statusNotification(StatusNotificationRequest parameters, String chargeBoxIdentity) {
+        if (parameters.getErrorCode() != null) {
+            log.info("Status notification on {}: {} (errorCode={})",
+                    chargeBoxIdentity,
+                    parameters.getStatus().value(),
+                    parameters.getErrorCode());
+        } else {
+            log.info("Status notification on {}: {}",
+                    chargeBoxIdentity,
+                    parameters.getStatus().value());
+        }
+
         // Optional field
         DateTime timestamp = parameters.getTimestamp()!=null ? parameters.getTimestamp() : DateTime.now();
 
