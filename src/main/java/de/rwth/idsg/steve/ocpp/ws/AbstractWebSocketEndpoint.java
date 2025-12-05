@@ -44,6 +44,7 @@ import net.parkl.ocpp.analytics.AnalyticsClient;
 import net.parkl.ocpp.service.cs.ChargePointService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.socket.*;
 
@@ -82,6 +83,9 @@ public abstract class AbstractWebSocketEndpoint extends ConcurrentWebSocketHandl
     private SteveConfiguration config;
     @Autowired
     private ClusteredWebSocketSessionStore clusteredWebSocketSessionStore;
+
+    @Value("${analytics.enabled}")
+    private boolean analyticsEnabled;
 
     public static final String CHARGEBOX_ID_KEY = "CHARGEBOX_ID_KEY";
 
@@ -145,10 +149,12 @@ public abstract class AbstractWebSocketEndpoint extends ConcurrentWebSocketHandl
                     .lastSeenAt(LocalDateTime.now(Clock.systemUTC()))
                     .build();
 
-            analyticsClient.updateLastSeen(heartbeatReq)
-                    .doOnSuccess(resp -> log.info("Heartbeat sent to analytics: {}", resp))
-                    .doOnError(err -> log.error("Failed to send heartbeat to analytics", err))
-                    .subscribe();
+            if (analyticsEnabled) {
+                analyticsClient.updateLastSeen(heartbeatReq)
+                        .doOnSuccess(resp -> log.info("Heartbeat sent to analytics: {}", resp))
+                        .doOnError(err -> log.error("Failed to send heartbeat to analytics", err))
+                        .subscribe();
+            }
         }
 
         CommunicationContext context = new CommunicationContext(session, clusteredInvokerClient, chargeBoxId, null);
@@ -194,10 +200,12 @@ public abstract class AbstractWebSocketEndpoint extends ConcurrentWebSocketHandl
                 .serverType("JAVA")
                 .build();
 
-        analyticsClient.createConnection(req)
-                .doOnNext(connection -> log.info("Created connection in analytics: {}", connection))
-                .doOnError(error -> log.error("Failed to create connection in analytics", error))
-                .subscribe();
+        if (analyticsEnabled) {
+            analyticsClient.createConnection(req)
+                    .doOnNext(connection -> log.info("Created connection in analytics: {}", connection))
+                    .doOnError(error -> log.error("Failed to create connection in analytics", error))
+                    .subscribe();
+        }
 
         // Just to keep the connection alive, such that the servers do not close
         // the connection because of a idle timeout, we ping-pong at fixed intervals.
@@ -231,10 +239,12 @@ public abstract class AbstractWebSocketEndpoint extends ConcurrentWebSocketHandl
                 .disConnectedAt(LocalDateTime.now(Clock.systemUTC()))
                 .build();
 
-        analyticsClient.updateConnection(req)
-                .doOnNext(connection -> log.info("Created connection in analytics: {}", connection))
-                .doOnError(error -> log.error("Failed to create connection in analytics", error))
-                .subscribe();
+        if (analyticsEnabled) {
+            analyticsClient.updateConnection(req)
+                    .doOnNext(connection -> log.info("Created connection in analytics: {}", connection))
+                    .doOnError(error -> log.error("Failed to create connection in analytics", error))
+                    .subscribe();
+        }
 
         WebSocketLogger.closed(chargeBoxId, session, closeStatus);
 
