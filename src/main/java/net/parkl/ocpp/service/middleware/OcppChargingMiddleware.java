@@ -456,7 +456,8 @@ public class OcppChargingMiddleware extends AbstractOcppMiddleware {
             throw new IllegalArgumentException("OcppChargingProcess or reason was null");
         }
 
-        log.info("Trying to stop charging process: ocppChargingProcessId: {}", process.getOcppChargingProcessId());
+        log.info("Trying to stop charging process: ocppChargingProcessId: {}, stopReason: {}",
+                process.getOcppChargingProcessId(), reason);
 
         String stopReason = reason;
 
