@@ -84,7 +84,7 @@ public abstract class AbstractWebSocketEndpoint extends ConcurrentWebSocketHandl
     @Autowired
     private ClusteredWebSocketSessionStore clusteredWebSocketSessionStore;
 
-    @Value("${analytics.enabled}")
+    @Value("${analytics.enabled:false}")
     private boolean analyticsEnabled;
 
     public static final String CHARGEBOX_ID_KEY = "CHARGEBOX_ID_KEY";
