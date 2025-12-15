@@ -35,6 +35,11 @@ public class AdvancedChargeBoxConfigKeys {
     public static final String KEY_START_TIMEOUT_SECS = "start.timeout.secs";
 
     /**
+     * Remote start timeout in seconds
+     */
+    public static final String KEY_REMOTE_START_TIMEOUT_SECS = "remote.start.timeout.secs";
+
+    /**
      * Preparing timeout enabled
      */
     public static final String KEY_PREPARING_TIMEOUT_ENABLED = "preparing.timeout.enabled";

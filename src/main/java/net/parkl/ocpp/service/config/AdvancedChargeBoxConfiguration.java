@@ -45,6 +45,10 @@ public class AdvancedChargeBoxConfiguration {
         return chargeBoxConfiguration == null ? 0 : chargeBoxConfiguration.getStartTimeoutSecs(chargeBoxId);
     }
 
+    public int getRemoteStartTimeoutSecs(String chargeBoxId) {
+        return chargeBoxConfiguration == null ? 0 : chargeBoxConfiguration.getRemoteStartTimeoutSecs(chargeBoxId);
+    }
+
     public boolean isPreparingTimeoutEnabled(String chargeBoxId) {
         return chargeBoxConfiguration != null && chargeBoxConfiguration.isPreparingTimeoutEnabled(chargeBoxId);
     }

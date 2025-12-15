@@ -17,6 +17,11 @@ public class TestChargeBoxConfiguration implements ChargeBoxConfiguration {
     }
 
     @Override
+    public int getRemoteStartTimeoutSecs(String chargeBoxId) {
+        return 0;
+    }
+
+    @Override
     public boolean isPreparingTimeoutEnabled(String chargeBoxId) {
         return false;
     }
@@ -30,8 +35,6 @@ public class TestChargeBoxConfiguration implements ChargeBoxConfiguration {
     public boolean isTransactionPartialEnabled(String chargeBoxId) {
         return chargeBoxId.equals("partialConsumptionUpdateChargeBox");
     }
-
-
 
     @Override
     public boolean isStartTimeoutEnabledForAny() {

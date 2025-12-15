@@ -23,6 +23,7 @@ import java.util.List;
 public interface ChargeBoxConfiguration {
     boolean isStartTimeoutEnabled(String chargeBoxId);
     int getStartTimeoutSecs(String chargeBoxId);
+    int getRemoteStartTimeoutSecs(String chargeBoxId);
     boolean isPreparingTimeoutEnabled(String chargeBoxId);
     int getPreparingTimeoutSecs(String chargeBoxId);
     boolean isTransactionPartialEnabled(String chargeBoxId);

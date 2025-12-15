@@ -73,7 +73,7 @@ public class RemoteStartService {
     }
 
     private int getRemoteStartValiditySecs(String chargeBoxId) {
-        int startTimeoutSecs = advancedChargeBoxConfiguration.getStartTimeoutSecs(chargeBoxId);
+        int startTimeoutSecs = advancedChargeBoxConfiguration.getRemoteStartTimeoutSecs(chargeBoxId);
         if (startTimeoutSecs > 0) {
             return startTimeoutSecs;
         }
