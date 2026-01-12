@@ -29,21 +29,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class ESPMeterValuesParserTest {
-    @Mock
-    private ApplicationContext applicationContext;
-    
-    @Mock
-    private ActivePowerParser activePowerParser;
-    
-    @Mock
-    private StateOfChargeParser stateOfChargeParser;
-    
-    @Mock
-    private TotalEnergyParser totalEnergyParser;
-    
-    @InjectMocks
+public class ESPMeterValuesParserTest extends DriverTestBase {
+    @Autowired
     private ESPMeterValuesParser espMeterValuesParser;
     
     @BeforeEach
@@ -55,7 +42,7 @@ public class ESPMeterValuesParserTest {
 
     @Test
     @SneakyThrows
-    void testNullMeasureAndMeterValues() {
+    void testNullMeasurandMeterValues() {
         InputStream is = getClass().getResourceAsStream("/metervalues.json");
         assertNotNull(is);
 
@@ -68,10 +55,5 @@ public class ESPMeterValuesParserTest {
         TransactionStart transactionStart = new TransactionStart();
         ESPMeterValues espMeterValues = espMeterValuesParser.parseMeterValues(transactionStart, request.getMeterValue());
         assertNotNull(espMeterValues);
-
-        // Verify that each parser was called with the correct arguments
-        verify(activePowerParser, times(request.getMeterValue().size() * request.getMeterValue().get(0).getSampledValue().size()))
-            .parseMeterValue(any(ESPMeterValues.class), eq(transactionStart), any(SampledValue.class));
-        // Add similar verifications for other parsers
     }
 }
