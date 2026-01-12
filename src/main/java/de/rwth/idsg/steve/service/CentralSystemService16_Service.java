@@ -46,6 +46,7 @@ import net.parkl.ocpp.service.middleware.OcppNotificationMiddleware;
 import ocpp.cs._2015._10.*;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -94,6 +95,9 @@ public class CentralSystemService16_Service {
 
     @Autowired
     private ESPNotificationService espNotificationService;
+
+    @Value("${analytics.enabled}")
+    private boolean analyticsEnabled;
 
     public BootNotificationResponse bootNotification(BootNotificationRequest parameters, String chargeBoxIdentity,
                                                      OcppProtocol ocppProtocol) {
@@ -334,10 +338,12 @@ public class CentralSystemService16_Service {
                 .lastSeenAt(LocalDateTime.now(Clock.systemUTC()))
                 .build();
 
-        analyticsClient.updateLastSeen(req)
-                .doOnNext(connection -> log.info("Created connection in analytics: {}", connection))
-                .doOnError(error -> log.error("Failed to create connection in analytics", error))
-                .subscribe();
+        if (analyticsEnabled) {
+            analyticsClient.updateLastSeen(req)
+                    .doOnNext(connection -> log.info("Created connection in analytics: {}", connection))
+                    .doOnError(error -> log.error("Failed to create connection in analytics", error))
+                    .subscribe();
+        }
         return new HeartbeatResponse().withCurrentTime(now);
     }
 
