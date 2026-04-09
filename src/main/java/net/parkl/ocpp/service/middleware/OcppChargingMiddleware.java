@@ -18,6 +18,7 @@ import net.parkl.ocpp.service.cs.EnergyImportLoader;
 import net.parkl.ocpp.service.cs.TransactionService;
 import net.parkl.ocpp.service.cs.status.ESPMeterValuesParser;
 import net.parkl.ocpp.service.middleware.receiver.AsyncMessageReceiverLocator;
+import ocpp.cs._2015._10.ChargePointErrorCode;
 import ocpp.cs._2015._10.MeterValue;
 import ocpp.cs._2015._10.Reason;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -459,7 +460,7 @@ public class OcppChargingMiddleware extends AbstractOcppMiddleware {
         log.info("Trying to stop charging process: ocppChargingProcessId: {}, stopReason: {}",
                 process.getOcppChargingProcessId(), reason);
 
-        String stopReason = reason;
+        String stopReason = convertFromChargePointErrorCode(reason);
 
         ESPChargingData.ESPChargingDataBuilder espChargingDataBuilder = ESPChargingData.builder().
                 start(process.getStartDate()).
@@ -496,6 +497,17 @@ public class OcppChargingMiddleware extends AbstractOcppMiddleware {
 
         if (stopListener != null) {
             stopListener.chargingStopped(process, req.getChargingData(), stopReason);
+        }
+    }
+
+    private String convertFromChargePointErrorCode(String reason) {
+        if (reason.chars().noneMatch(Character::isLowerCase)) {
+            return reason;
+        }
+        try {
+            return ChargePointErrorCode.fromValue(reason).toString();
+        } catch (IllegalArgumentException e) {
+            return reason;
         }
     }
 
