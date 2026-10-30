@@ -35,7 +35,7 @@ public class PersistentTaskServiceImpl implements PersistentTaskService {
     @Transactional
     public void addNewResponse(int taskId, String chargeBoxId, String response, DateTime endTimestamp) {
         if (clusteredWebSocketConfig.isClusteredWebSocketSessionEnabled() && taskId !=0) {
-            log.info("Adding new persistent response: {}-{}, {}", taskId, chargeBoxId, response);
+            log.info("Adding new persistent response: {}-{}", taskId, chargeBoxId);
             PersistentTask task = findById(taskId);
 
             PersistentTaskResult result = new PersistentTaskResult();
@@ -57,7 +57,7 @@ public class PersistentTaskServiceImpl implements PersistentTaskService {
     @Transactional
     public void addNewError(int taskId, String chargeBoxId, String errorMessage, DateTime endTimestamp) {
         if (clusteredWebSocketConfig.isClusteredWebSocketSessionEnabled() && taskId != 0) {
-            log.info("Adding new persistent error: {}-{}, {}", taskId, chargeBoxId, errorMessage);
+            log.info("Adding new persistent error: {}-{}", taskId, chargeBoxId);
 
             PersistentTask task = findById(taskId);
 

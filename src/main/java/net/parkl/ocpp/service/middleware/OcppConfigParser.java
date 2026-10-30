@@ -10,11 +10,10 @@ import java.util.List;
 @Slf4j
 public class OcppConfigParser {
     public static List<ESPChargeBoxConfiguration> parseConfList(String response) {
-        log.info("Parsing configuration: {}...", response);
+        log.info("Parsing configuration...");
         List<ESPChargeBoxConfiguration> ret = new ArrayList<>();
         String[] split = response.split("<br>");
         for (String line : split) {
-            log.info("Parsing config line: {}...", line);
             if (line.startsWith("<b>Unknown keys")) {
                 log.info("Unknown keys reached, exiting...");
                 break;
@@ -27,7 +26,7 @@ public class OcppConfigParser {
                 }
                 int separatorIdx = line.indexOf(":");
                 if (separatorIdx == -1) {
-                    log.warn("Invalid configuration line: {}", line);
+                    log.warn("Invalid configuration line: no key separator found");
                     continue;
                 }
                 String key = line.substring(0, separatorIdx).trim();
@@ -35,7 +34,7 @@ public class OcppConfigParser {
 
                 ESPChargeBoxConfiguration c = ESPChargeBoxConfiguration.builder().
                         key(key).value(value).readOnly(readOnly).build();
-                log.info("Configuration parsed: {}={} (read-only={})", c.getKey(), c.getValue(), c.isReadOnly());
+                log.info("Configuration parsed: {} (read-only={})", c.getKey(), c.isReadOnly());
                 ret.add(c);
             }
         }

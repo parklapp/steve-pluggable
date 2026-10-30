@@ -247,8 +247,8 @@ public class CentralSystemService16_Service {
         Integer transactionId;
 
          if (!remoteStart) {
-            log.info("No remote start for RFID tag: {} on charger: {}/{}, interpreting as RFID start...",
-                    parameters.getIdTag(), chargeBoxIdentity, parameters.getConnectorId());
+            log.info("No remote start for RFID tag on charger: {}/{}, interpreting as RFID start...",
+                    chargeBoxIdentity, parameters.getConnectorId());
 
             chargingProcessService.createChargingProcess(chargeBoxIdentity,
                     parameters.getConnectorId(),
@@ -269,9 +269,9 @@ public class CentralSystemService16_Service {
             }
             notificationMiddleware.notifyAboutRfidStart(startRequest);
         } else {
-            log.info("Remote start found for RFID tag: {} on charger: {}/{}, " +
+            log.info("Remote start found on charger: {}/{}, " +
                             "interpreting as remote start...",
-                    parameters.getIdTag(), chargeBoxIdentity, parameters.getConnectorId());
+                    chargeBoxIdentity, parameters.getConnectorId());
             transactionId = transactionService.insertTransaction(params);
         }
 
@@ -340,7 +340,7 @@ public class CentralSystemService16_Service {
 
         if (analyticsEnabled) {
             analyticsClient.updateLastSeen(req)
-                    .doOnNext(connection -> log.info("Created connection in analytics: {}", connection))
+                    .doOnNext(connection -> log.info("Created connection in analytics: {}", chargeBoxIdentity))
                     .doOnError(error -> log.error("Failed to create connection in analytics", error))
                     .subscribe();
         }
@@ -348,7 +348,7 @@ public class CentralSystemService16_Service {
     }
 
     public AuthorizeResponse authorize(AuthorizeRequest parameters, String chargeBoxIdentity) {
-        log.info("Authorizing ID tag {} on charge box: {}...", parameters.getIdTag(), chargeBoxIdentity);
+        log.info("Authorizing ID tag on charge box: {}...", chargeBoxIdentity);
 
         boolean remoteStart = remoteStartService.hasOpenRemoteStart(chargeBoxIdentity, parameters.getIdTag());
 
@@ -377,7 +377,7 @@ public class CentralSystemService16_Service {
             log.info("[Data Transfer] Message Id: {}", parameters.getMessageId());
         }
         if (parameters.isSetData()) {
-            log.info("[Data Transfer] Data: {}", parameters.getData());
+            log.info("[Data Transfer] Data length: {}", parameters.getData().length());
         }
 
         // OCPP requires a status to be set. Since this is a dummy impl, set it to "Accepted".

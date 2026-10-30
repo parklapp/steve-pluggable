@@ -23,13 +23,13 @@ public class OcppNotificationMiddleware  {
     }
 
     public void notifyAboutRfidStart(ESPRfidChargingStartRequest startRequest) {
-        log.info("Notify about RFID start, RFID = {}, charger = {}/{}",
-                startRequest.getRfidTag(), startRequest.getChargeBoxId(), startRequest.getConnectorId());
+        log.info("Notify about RFID start, charger = {}/{}",
+                startRequest.getChargeBoxId(), startRequest.getConnectorId());
         try {
             emobilityServiceProvider.notifyAboutRfidStart(startRequest);
         } catch (Exception ex) {
-            log.error("Failed to notify about RFID start, RFID = {}, charger = {}/{}",
-                    startRequest.getRfidTag(), startRequest.getChargeBoxId(), startRequest.getConnectorId(), ex);
+            log.error("Failed to notify about RFID start, charger = {}/{}",
+                    startRequest.getChargeBoxId(), startRequest.getConnectorId(), ex);
         }
     }
 

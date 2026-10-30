@@ -68,10 +68,9 @@ public class OcppChargingMiddleware extends AbstractOcppMiddleware {
 
     @SneakyThrows
     public ESPChargingStartResult startCharging(ESPChargingStartRequest req){
-        log.info("Starting charging: {}-{} (licensePlate={})...",
+        log.info("Starting charging: {}-{}...",
                 req.getChargeBoxId(),
-                req.getChargerId(),
-                req.getLicensePlate());
+                req.getChargerId());
         if (StringUtils.isEmpty(req.getChargeBoxId())) {
             log.error("Charger box id not specified");
             return ESPChargingStartResult.builder().errorCode(ERROR_CODE_INVALID_CHARGER_ID).build();
@@ -195,7 +194,7 @@ public class OcppChargingMiddleware extends AbstractOcppMiddleware {
         List<String> tags = config.getIntegrationIdTags();
         for (String tag : tags) {
             if (!idTagsUsed.contains(tag.toLowerCase())) {
-                log.info("Available id tag found: {}", tag);
+                log.info("Available id tag found");
                 return tag;
             }
         }
@@ -523,7 +522,7 @@ public class OcppChargingMiddleware extends AbstractOcppMiddleware {
                 transactionService.findTransaction(transactionPk)
                         .orElseThrow(() -> new IllegalStateException("Invalid transaction id: " + transactionPk));
 
-        log.info("transaction in consumption update: {}", transaction);
+        log.info("transaction in consumption update: {}", transactionPk);
 
         float calculatedTotalPower = consumptionHelper.getTotalPower(startValue, stopValue);
         Float calculatedStartValue = consumptionHelper.getStartValue(transaction);
@@ -637,11 +636,11 @@ public class OcppChargingMiddleware extends AbstractOcppMiddleware {
     }
 
     public boolean checkRfidTag(String rfidTag, String chargeBoxId) {
-        log.info("Check RFID tag validity on backend, RFID = {}", rfidTag);
+        log.info("Check RFID tag validity on backend, charge box: {}", chargeBoxId);
         try {
             return emobilityServiceProvider.checkRfidTag(rfidTag, chargeBoxId);
         } catch (Exception ex) {
-            log.error("Failed to check RFID tag validity on backend, RFID = {}", rfidTag, ex);
+            log.error("Failed to check RFID tag validity on backend, charge box: {}", chargeBoxId, ex);
             return false;
         }
     }
@@ -655,8 +654,8 @@ public class OcppChargingMiddleware extends AbstractOcppMiddleware {
         }
 
         ESPMeterValues values = meterValuesParser.parseMeterValues(transactionStart, meterValues);
-        log.info("Updating meter values for {}: {}", process.getOcppChargingProcessId(),
-                values);
+        log.info("Updating meter values for {} ({} meter values)", process.getOcppChargingProcessId(),
+                meterValues.size());
         emobilityServiceProvider.updateChargingMeterValues(process.getOcppChargingProcessId(), values);
 
     }

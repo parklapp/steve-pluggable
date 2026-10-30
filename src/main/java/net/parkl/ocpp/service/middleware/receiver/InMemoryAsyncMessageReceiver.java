@@ -31,13 +31,13 @@ public class InMemoryAsyncMessageReceiver implements AsyncMessageReceiver {
             log.info("Wait for async stop failed: {}", externalChargeId);
             return null;
         }
-        log.info("Received async stop data for {}: {}",externalChargeId, state);
+        log.info("Received async stop data for {}", externalChargeId);
         return state;
     }
 
     @Override
     public void updateChargingConsumption(String externalChargeId, ESPChargingData data) {
-        log.info("Updating charging consumption for externalChargeId {}: {}", externalChargeId, data);
+        log.info("Updating charging consumption for externalChargeId {}", externalChargeId);
         chargingDataMap.put(externalChargeId, data);
 
     }

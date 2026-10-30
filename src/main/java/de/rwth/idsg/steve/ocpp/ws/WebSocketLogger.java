@@ -44,7 +44,7 @@ public final class WebSocketLogger {
     }
 
     public static void sending(String chargeBoxId, WebSocketSession session, String msg) {
-        log.info("[chargeBoxId={}, sessionId={}] Sending: {}", chargeBoxId, session.getId(), msg);
+        log.info("[chargeBoxId={}, sessionId={}] Sending message, length: {}", chargeBoxId, session.getId(), msg.length());
     }
 
     public static void sendingPing(String chargeBoxId, WebSocketSession session) {
@@ -56,7 +56,7 @@ public final class WebSocketLogger {
     }
 
     public static void receivedText(String chargeBoxId, WebSocketSession session, String msg) {
-        log.info("[chargeBoxId={}, sessionId={}] Received: {}", chargeBoxId, session.getId(), msg);
+        log.info("[chargeBoxId={}, sessionId={}] Received message, length: {}", chargeBoxId, session.getId(), msg.length());
     }
 
     public static void receivedEmptyText(String chargeBoxId, WebSocketSession session) {

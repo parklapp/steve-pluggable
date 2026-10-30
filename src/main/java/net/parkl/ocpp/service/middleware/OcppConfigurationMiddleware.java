@@ -100,7 +100,7 @@ public class OcppConfigurationMiddleware extends AbstractOcppMiddleware {
 
     public List<ESPChargeBoxConfiguration> changeChargeBoxConfiguration(String chargeBoxId, String key,
                                                                         String value) {
-        log.info("Configuration change request for {}: {}={}...", chargeBoxId, key, value);
+        log.info("Configuration change request for {}: {}...", chargeBoxId, key);
         ChargePointSelect c = null;
         OcppChargeBox chargeBox = chargeBoxRepo.findByChargeBoxId(chargeBoxId);
         if (chargeBox == null) {
