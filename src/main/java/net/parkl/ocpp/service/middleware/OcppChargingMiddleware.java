@@ -68,9 +68,10 @@ public class OcppChargingMiddleware extends AbstractOcppMiddleware {
 
     @SneakyThrows
     public ESPChargingStartResult startCharging(ESPChargingStartRequest req){
-        log.info("Starting charging: {}-{}...",
+        log.info("Starting charging: {}-{} (licensePlate={})...",
                 req.getChargeBoxId(),
-                req.getChargerId());
+                req.getChargerId(),
+                req.getLicensePlate());
         if (StringUtils.isEmpty(req.getChargeBoxId())) {
             log.error("Charger box id not specified");
             return ESPChargingStartResult.builder().errorCode(ERROR_CODE_INVALID_CHARGER_ID).build();
