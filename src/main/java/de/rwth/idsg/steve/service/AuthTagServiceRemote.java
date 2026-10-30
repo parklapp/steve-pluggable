@@ -47,14 +47,14 @@ public class AuthTagServiceRemote implements AuthTagService {
             return new IdTagInfo().withStatus(AuthorizationStatus.INVALID);
         } else {
             if (!chargingMiddleware.checkRfidTag(idTag, chargeBoxId)) {
-                log.error("The user on charge box '{}' is INVALID (validation failed on Parkl backend).", chargeBoxId);
+                log.error("The user with idTag '{}' is INVALID (validation failed on Parkl backend).", idTag);
                 return new IdTagInfo().withStatus(AuthorizationStatus.INVALID);
             }
         }
 
 
 
-        log.debug("The user on charge box '{}' is ACCEPTED.", chargeBoxId);
+        log.debug("The user with idTag '{}' is ACCEPTED.", idTag);
         return new IdTagInfo()
             .withStatus(AuthorizationStatus.ACCEPTED);
     }

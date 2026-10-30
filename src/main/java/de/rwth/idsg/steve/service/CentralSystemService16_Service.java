@@ -247,8 +247,8 @@ public class CentralSystemService16_Service {
         Integer transactionId;
 
          if (!remoteStart) {
-            log.info("No remote start for RFID tag on charger: {}/{}, interpreting as RFID start...",
-                    chargeBoxIdentity, parameters.getConnectorId());
+            log.info("No remote start for RFID tag: {} on charger: {}/{}, interpreting as RFID start...",
+                    parameters.getIdTag(), chargeBoxIdentity, parameters.getConnectorId());
 
             chargingProcessService.createChargingProcess(chargeBoxIdentity,
                     parameters.getConnectorId(),
@@ -269,9 +269,9 @@ public class CentralSystemService16_Service {
             }
             notificationMiddleware.notifyAboutRfidStart(startRequest);
         } else {
-            log.info("Remote start found on charger: {}/{}, " +
+            log.info("Remote start found for RFID tag: {} on charger: {}/{}, " +
                             "interpreting as remote start...",
-                    chargeBoxIdentity, parameters.getConnectorId());
+                    parameters.getIdTag(), chargeBoxIdentity, parameters.getConnectorId());
             transactionId = transactionService.insertTransaction(params);
         }
 
@@ -348,7 +348,7 @@ public class CentralSystemService16_Service {
     }
 
     public AuthorizeResponse authorize(AuthorizeRequest parameters, String chargeBoxIdentity) {
-        log.info("Authorizing ID tag on charge box: {}...", chargeBoxIdentity);
+        log.info("Authorizing ID tag {} on charge box: {}...", parameters.getIdTag(), chargeBoxIdentity);
 
         boolean remoteStart = remoteStartService.hasOpenRemoteStart(chargeBoxIdentity, parameters.getIdTag());
 

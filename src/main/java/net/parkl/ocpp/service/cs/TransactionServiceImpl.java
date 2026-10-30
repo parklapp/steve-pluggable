@@ -239,8 +239,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Integer insertTransaction(InsertTransactionParams params) {
-        log.info("Starting transaction: chargeBoxId={},connectorId={}...",
-                params.getChargeBoxId(), params.getConnectorId());
+        log.info("Starting transaction: chargeBoxId={},connectorId={},idTag={}...",
+                params.getChargeBoxId(), params.getConnectorId(), params.getIdTag());
         Connector connector = connectorService.createConnectorIfNotExists(params.getChargeBoxId(),
                 params.getConnectorId());
 

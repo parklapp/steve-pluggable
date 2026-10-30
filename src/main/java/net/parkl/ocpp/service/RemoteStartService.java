@@ -27,7 +27,7 @@ public class RemoteStartService {
 
     @Transactional
     public void remoteStartRequested(String chargeBoxId, int connectorId, String idTag) {
-        log.info("Remote start requested for chargeBoxId: {}, connectorId: {}", chargeBoxId, connectorId);
+        log.info("Remote start requested for chargeBoxId: {}, connectorId: {}, idTag: {}", chargeBoxId, connectorId, idTag);
         Connector c = connectorRepo.findByChargeBoxIdAndConnectorId(chargeBoxId, connectorId);
         if (c == null) {
             throw new IllegalStateException(INVALID_CHARGE_BOX_ID_CONNECTOR_ID + chargeBoxId + "/" + connectorId);
@@ -42,7 +42,7 @@ public class RemoteStartService {
 
     @Transactional
     public void remoteStartClosed(String chargeBoxId, int connectorId, String idTag) {
-        log.info("Remote start closed for chargeBoxId: {}, connectorId: {}", chargeBoxId, connectorId);
+        log.info("Remote start closed for chargeBoxId: {}, connectorId: {}, idTag: {}", chargeBoxId, connectorId, idTag);
         Connector c = connectorRepo.findByChargeBoxIdAndConnectorId(chargeBoxId, connectorId);
         if (c == null) {
             throw new IllegalStateException(INVALID_CHARGE_BOX_ID_CONNECTOR_ID + chargeBoxId + "/" + connectorId);

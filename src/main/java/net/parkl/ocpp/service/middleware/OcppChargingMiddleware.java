@@ -195,7 +195,7 @@ public class OcppChargingMiddleware extends AbstractOcppMiddleware {
         List<String> tags = config.getIntegrationIdTags();
         for (String tag : tags) {
             if (!idTagsUsed.contains(tag.toLowerCase())) {
-                log.info("Available id tag found");
+                log.info("Available id tag found: {}", tag);
                 return tag;
             }
         }
@@ -637,11 +637,11 @@ public class OcppChargingMiddleware extends AbstractOcppMiddleware {
     }
 
     public boolean checkRfidTag(String rfidTag, String chargeBoxId) {
-        log.info("Check RFID tag validity on backend, charge box: {}", chargeBoxId);
+        log.info("Check RFID tag validity on backend, RFID = {}", rfidTag);
         try {
             return emobilityServiceProvider.checkRfidTag(rfidTag, chargeBoxId);
         } catch (Exception ex) {
-            log.error("Failed to check RFID tag validity on backend, charge box: {}", chargeBoxId, ex);
+            log.error("Failed to check RFID tag validity on backend, RFID = {}", rfidTag, ex);
             return false;
         }
     }
