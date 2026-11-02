@@ -151,7 +151,7 @@ public abstract class AbstractWebSocketEndpoint extends ConcurrentWebSocketHandl
 
             if (analyticsEnabled) {
                 analyticsClient.updateLastSeen(heartbeatReq)
-                        .doOnSuccess(resp -> log.info("Heartbeat sent to analytics: {}", resp))
+                        .doOnSuccess(resp -> log.info("Heartbeat sent to analytics: {}", chargeBoxId))
                         .doOnError(err -> log.error("Failed to send heartbeat to analytics", err))
                         .subscribe();
             }
@@ -177,7 +177,7 @@ public abstract class AbstractWebSocketEndpoint extends ConcurrentWebSocketHandl
                 return "Heartbeat".equalsIgnoreCase(action);
             }
         } catch (Exception e) {
-            log.warn("Failed to parse incoming WebSocket message: {}", payload, e);
+            log.warn("Failed to parse incoming WebSocket message, length: {}, error: {}", payload.length(), e.getClass().getSimpleName());
         }
         return false;
     }
@@ -202,7 +202,7 @@ public abstract class AbstractWebSocketEndpoint extends ConcurrentWebSocketHandl
 
         if (analyticsEnabled) {
             analyticsClient.createConnection(req)
-                    .doOnNext(connection -> log.info("Created connection in analytics: {}", connection))
+                    .doOnNext(connection -> log.info("Created connection in analytics: {}", chargeBoxId))
                     .doOnError(error -> log.error("Failed to create connection in analytics", error))
                     .subscribe();
         }
@@ -241,7 +241,7 @@ public abstract class AbstractWebSocketEndpoint extends ConcurrentWebSocketHandl
 
         if (analyticsEnabled) {
             analyticsClient.updateConnection(req)
-                    .doOnNext(connection -> log.info("Created connection in analytics: {}", connection))
+                    .doOnNext(connection -> log.info("Created connection in analytics: {}", chargeBoxId))
                     .doOnError(error -> log.error("Failed to create connection in analytics", error))
                     .subscribe();
         }

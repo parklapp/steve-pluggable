@@ -523,7 +523,7 @@ public class OcppChargingMiddleware extends AbstractOcppMiddleware {
                 transactionService.findTransaction(transactionPk)
                         .orElseThrow(() -> new IllegalStateException("Invalid transaction id: " + transactionPk));
 
-        log.info("transaction in consumption update: {}", transaction);
+        log.info("transaction in consumption update: {}", transactionPk);
 
         float calculatedTotalPower = consumptionHelper.getTotalPower(startValue, stopValue);
         Float calculatedStartValue = consumptionHelper.getStartValue(transaction);
@@ -655,8 +655,8 @@ public class OcppChargingMiddleware extends AbstractOcppMiddleware {
         }
 
         ESPMeterValues values = meterValuesParser.parseMeterValues(transactionStart, meterValues);
-        log.info("Updating meter values for {}: {}", process.getOcppChargingProcessId(),
-                values);
+        log.info("Updating meter values for {} ({} meter values)", process.getOcppChargingProcessId(),
+                meterValues.size());
         emobilityServiceProvider.updateChargingMeterValues(process.getOcppChargingProcessId(), values);
 
     }

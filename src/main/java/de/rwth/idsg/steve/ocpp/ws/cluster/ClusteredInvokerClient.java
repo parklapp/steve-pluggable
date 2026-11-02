@@ -33,7 +33,7 @@ public class ClusteredInvokerClient {
     }
     @SneakyThrows
     public void invoke(String chargeBoxId, String messageId, String payload, String responseClassName) {
-        log.info("Sending payload to charge box pod {}: {}", chargeBoxId, payload);
+        log.info("Sending payload to charge box pod {}, messageId: {}", chargeBoxId, messageId);
         ClusteredInvocationRequest request = new ClusteredInvocationRequest(chargeBoxId, messageId,
                 Base64.getEncoder().encodeToString(payload.getBytes(StandardCharsets.UTF_8)),
                 responseClassName,
@@ -74,7 +74,7 @@ public class ClusteredInvokerClient {
 
     @SneakyThrows
     public void callback(String chargeBoxId, String payload, String originPodIp) {
-        log.info("Sending callback to invoking pod {}: {}", chargeBoxId, payload);
+        log.info("Sending callback to invoking pod {}", chargeBoxId);
         ClusteredInvocationCallback request = new ClusteredInvocationCallback(chargeBoxId,
                 Base64.getEncoder().encodeToString(payload.getBytes(StandardCharsets.UTF_8)));
 

@@ -340,7 +340,7 @@ public class CentralSystemService16_Service {
 
         if (analyticsEnabled) {
             analyticsClient.updateLastSeen(req)
-                    .doOnNext(connection -> log.info("Created connection in analytics: {}", connection))
+                    .doOnNext(connection -> log.info("Created connection in analytics: {}", chargeBoxIdentity))
                     .doOnError(error -> log.error("Failed to create connection in analytics", error))
                     .subscribe();
         }
@@ -377,7 +377,7 @@ public class CentralSystemService16_Service {
             log.info("[Data Transfer] Message Id: {}", parameters.getMessageId());
         }
         if (parameters.isSetData()) {
-            log.info("[Data Transfer] Data: {}", parameters.getData());
+            log.info("[Data Transfer] Data length: {}", parameters.getData().length());
         }
 
         // OCPP requires a status to be set. Since this is a dummy impl, set it to "Accepted".
